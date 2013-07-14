@@ -44,7 +44,7 @@ module Backstage
   TORQUEBOX_VERSION = File.readlines( File.join( File.dirname( __FILE__ ), '..', 'TORQUEBOX_VERSION' ) ).first.strip
 
   class Application < Sinatra::Base
-    if ENV['TORQUEBOX_APP_NAME']
+    if ENV['TORQUEBOX_APP_NAME'] && !defined?(::Rails)
       use TorqueBox::Session::ServletStore
     else
       enable :sessions

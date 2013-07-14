@@ -56,6 +56,20 @@ command and set it like so:
 
     TORQUEBOX_HOME=`torquebox env torquebox_home` backstage deploy
 
+### As An Rails Engine ###
+
+Add to `Gemfile`:
+
+    gem "torquebox-backstage"
+
+Add to `config/routes.rb`:
+
+    mount Backstage::Application => "/backstage"
+
+Then run:
+
+    bundle install
+
 ### From Source ###
 
 *Note:* unless you are doing development on BackStage, the recommended
