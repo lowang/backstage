@@ -248,44 +248,52 @@ module Backstage
   end
 end
 
-class Object
-  def blank?
-    nil? or (respond_to?( :empty? ) and empty?)
+begin
+  require 'active_support/core_ext/object/blank'
+rescue LoadError
+  class Object
+    def blank?
+      nil? or (respond_to?( :empty? ) and empty?)
+    end
   end
 end
 
-class String
-  def camelize
-    if self =~ %r{_}
-      split( '_' ).collect( &:capitalize ).join( '' )
-    else
-      capitalize
+begin
+  require 'active_support/core_ext/string/inflections'
+rescue LoadError
+  class String
+    def camelize
+      if self =~ %r{_}
+        split( '_' ).collect( &:capitalize ).join( '' )
+      else
+        capitalize
+      end
     end
-  end
-  
-  def classify
-    if self =~ %r{/}
-      split( '/' ).collect( &:camelize ).join( '::' )
-    else
-      camelize
+
+    def classify
+      if self =~ %r{/}
+        split( '/' ).collect( &:camelize ).join( '::' )
+      else
+        camelize
+      end
     end
-  end
 
-  def constantize
-    eval( classify )
-  end
+    def constantize
+      eval( classify )
+    end
 
-  def underscore
-    gsub(/([a-zA-Z])([A-Z])/, '\1_\2').downcase
-  end
+    def underscore
+      gsub(/([a-zA-Z])([A-Z])/, '\1_\2').downcase
+    end
 
-  def humanize
-    split( '_' ).collect( &:capitalize ).join( ' ' )
-  end
+    def humanize
+      split( '_' ).collect( &:capitalize ).join( ' ' )
+    end
 
-  #poor man's...
-  def pluralize
-    "#{self}s"
+    #poor man's...
+    def pluralize
+      "#{self}s"
+    end
   end
 end
 

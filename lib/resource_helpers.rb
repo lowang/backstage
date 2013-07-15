@@ -21,7 +21,7 @@ module Backstage
       options ||= {}
       resources.each do |resource|
         resource = resource.to_s
-        klass = "backstage/#{resource}".constantize
+        klass = Backstage.const_get("#{resource}".classify)
         view_path = options[:view_path] || resource.pluralize
         get "/#{resource.pluralize}" do
           @collection = klass.all
