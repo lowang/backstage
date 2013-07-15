@@ -201,14 +201,21 @@ module Backstage
         versions << ['Build Number', torquebox.build_number]
         versions << ['Revision', torquebox.revision]
         versions
+      rescue JMX::NoSuchBeanError
+        versions
       end
 
       def component_version_info
         versions = { }
-        torquebox = JMX::MBeanServer.new[javax.management.ObjectName.new( 'torquebox:type=version' )]
-        torquebox.component_names.each do |name|
-          versions[name] = torquebox.getComponentBuildInfo( name ) unless name == 'TorqueBox'
+
+        begin
+          torquebox = JMX::MBeanServer.new[javax.management.ObjectName.new( 'torquebox:type=version' )]
+          torquebox.component_names.each do |name|
+            versions[name] = torquebox.getComponentBuildInfo( name ) unless name == 'TorqueBox'
+          end
+        rescue JMX::NoSuchBeanError
         end
+
         augment_version_data( versions )
       end
 
