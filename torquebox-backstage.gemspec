@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
 
 
   deps = [
-          [%q<sinatra>, "~> 1.3.0"],
+          [%q<sinatra>, "= 1.3.3"],
           [%q<haml>, ">= 3.0"],
           [%q<sass>, ">= 3.1.2"],
           [%q<jmx>, "= 0.9"],
